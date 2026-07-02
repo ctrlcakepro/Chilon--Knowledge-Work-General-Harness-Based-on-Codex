@@ -1,105 +1,176 @@
-[README.md](https://github.com/user-attachments/files/29607259/README.md)
-# Chilon--Knowledge-Work-General-Harness-Based-on-Codex
-A layered Codex harness for long-term knowledge work, project bootstrapping, reusable workflows, and project-specific AGENTS generation.
+[README.md](https://github.com/user-attachments/files/29607338/README.md)
 # Codex Harness Public
 
-一套可复用的 Codex harness 发布版，适合放进公开 GitHub 仓库。
+A layered Codex harness for long-term knowledge work, reusable workflows, project bootstrapping, and project-specific AGENTS generation.
 
-这份公开版包含三部分：
+This repository packages a public version of my Codex harness system. It is designed to make Codex behave less like a one-off chat assistant and more like a reusable working system for multi-project collaboration.
 
-1. `AGENTS.md`
-全局层协作规则、任务分流、工具优先级、交付底线
-
-2. `knowledge-workbench/`
-中层工作台，包括模板、playbooks、评分层、校准与 benchmark
-
-3. `skills/project-harness-bootstrap/`
-一个可复用 skill。输入项目描述后，它会在项目根目录生成该项目的：
-- `AGENTS.md`
-- `PROJECT-WORKFLOW.md`
-
-## 适合谁
-
-适合想把 Codex 从“单次聊天助手”改造成“可重复启动的长期工作系统”的用户，尤其适合：
-
-- 知识工作
-- 写作与审稿
-- 汇报与演示
-- 结构化项目协作
-- 多项目并行工作
-
-## 目录结构
+## What This Repository Includes
 
 - `AGENTS.md`
+  Global collaboration rules, task routing principles, delivery standards, and reliability boundaries.
 - `knowledge-workbench/`
+  A modular workbench for recurring workflows, including templates, playbooks, style guidance, quality gates, scoring, calibration, and benchmark routines.
 - `skills/project-harness-bootstrap/`
+  A reusable skill that turns a project description into project-root harness files such as `AGENTS.md` and `PROJECT-WORKFLOW.md`.
 
-## 设计原则
+## What This Harness Tries To Do
 
-这套 harness 采用三层结构：
+- Keep the global layer small and stable.
+- Push detailed workflows down into reusable modules instead of bloating top-level instructions.
+- Help Codex ask fewer vague questions and move work forward more directly.
+- Preserve output quality for writing, review, presentation, and structured knowledge work.
+- Make it easier to start a new project with a usable project-level harness.
 
-1. 全局层
-只保留跨项目都稳定成立的规则，例如协作方式、任务分流、工具优先级、交付底线与可靠性。
+## Architecture
 
-2. 工作台层
-把高频 workflow 下沉到 `knowledge-workbench/`，避免把所有细节堆在顶层。
+This harness uses a layered structure:
 
-3. 项目层
-每个项目再根据自身目标、交付物和工具面，生成自己的 `AGENTS.md` 与 `PROJECT-WORKFLOW.md`。
+1. Global layer
+   `AGENTS.md` holds stable cross-project rules such as collaboration style, task routing, delivery expectations, and reliability constraints.
 
-## 安装方式
+2. Workbench layer
+   `knowledge-workbench/` holds reusable building blocks:
+   - `templates/` for common output structures
+   - `playbooks/` for routing, delivery, quality, and failure recovery
+   - `style/` for aesthetic direction and style translation
+   - `architecture/` for rule precedence, scoring, and harness governance
+   - `benchmarks/` for calibration and regression checks
 
-把仓库中的文件复制到你的 Codex 主目录中：
+3. Project layer
+   Each project can define its own root `AGENTS.md` and `PROJECT-WORKFLOW.md` based on its actual purpose, outputs, and recurring workflows.
 
-1. 复制根目录 `AGENTS.md` 到：
-   `~/.codex/AGENTS.md`
+## Who This Is For
 
-2. 复制 `knowledge-workbench/` 到：
-   `~/.codex/knowledge-workbench/`
+This repository is most useful if you use Codex for:
 
-3. 复制 `skills/project-harness-bootstrap/` 到：
-   `~/.codex/skills/project-harness-bootstrap/`
+- knowledge work
+- writing and revision
+- research and review
+- presentation and deck preparation
+- multi-project workflow setup
+- long-term agent collaboration
 
-如果你已经有自己的全局 `AGENTS.md`，建议先人工合并，而不是直接覆盖。
+## Installation
 
-## 如何使用项目初始化 skill
+Copy the files into your Codex home directory.
 
-安装完成后，可以在一个新项目里直接调用：
+Recommended layout:
 
-    Use $project-harness-bootstrap to create a project-root harness from this project description.
+```text
+~/.codex/
+  AGENTS.md
+  knowledge-workbench/
+  skills/
+    project-harness-bootstrap/
+```
 
-或者中文使用：
+Install in this order:
 
-    用 $project-harness-bootstrap 根据下面这段项目描述，在项目根目录生成 AGENTS.md 和 PROJECT-WORKFLOW.md。
+1. Copy `AGENTS.md` into `~/.codex/AGENTS.md`
+2. Copy `knowledge-workbench/` into `~/.codex/knowledge-workbench/`
+3. Copy `skills/project-harness-bootstrap/` into `~/.codex/skills/project-harness-bootstrap/`
 
-推荐输入至少包含：
+If you already have your own global `AGENTS.md`, merge carefully instead of overwriting blindly.
 
-- 项目是做什么的
-- 核心重复任务有哪些
-- 主要交付物有哪些
-- 希望优先使用哪些工具
-- 哪些操作需要确认
+## Quick Start
 
-## 这份公开版没有包含什么
+After installation, the global harness will shape Codex behavior across projects.
 
-为了适合公开发布，这个仓库没有包含你的本机环境内容，例如：
+For a new project, use the bootstrap skill with a short project description.
 
-- `config.toml`
-- 认证文件
-- 插件缓存
-- session / sqlite 状态文件
-- 私人 API key
-- 本机自动化与状态库
+Example:
 
-## 发布前建议
+```text
+Use $project-harness-bootstrap to create a project-root harness from this project description.
 
-如果你要正式公开发布，建议再补两样：
+This is a research and writing project about...
+The recurring tasks are...
+The main deliverables are...
+The preferred tools are...
+Actions that require confirmation are...
+```
 
-1. 一个开源许可证文件，例如 `MIT` 或 `Apache-2.0`
-2. 一份简单的版本记录，说明你后续如何演进这套 harness
+Or in Chinese:
 
-## 推荐仓库说明
+```text
+用 $project-harness-bootstrap 根据下面这段项目描述，在项目根目录生成 AGENTS.md 和 PROJECT-WORKFLOW.md。
 
-如果你准备发 GitHub，可以把这个仓库理解成：
+这个项目是做……
+核心重复任务有……
+主要交付物有……
+希望优先使用的工具有……
+需要确认的边界有……
+```
 
-“A layered Codex harness for long-term knowledge work, project bootstrapping, and reusable workflows.”
+## What The Bootstrap Skill Generates
+
+By default, the skill creates or updates:
+
+- `AGENTS.md`
+  A project-specific Codex harness that changes behavior inside that project.
+- `PROJECT-WORKFLOW.md`
+  A human-readable quickstart and workflow map for the project.
+
+The skill is designed to:
+
+- inherit your global rules
+- avoid duplicating the global harness
+- keep project instructions compact
+- turn project descriptions into usable workflows quickly
+
+## Repository Structure
+
+```text
+codex-harness-public/
+  AGENTS.md
+  README.md
+  knowledge-workbench/
+    architecture/
+    benchmarks/
+    playbooks/
+    questioning/
+    style/
+    templates/
+  skills/
+    project-harness-bootstrap/
+      SKILL.md
+      agents/
+      references/
+```
+
+## Design Principles
+
+- Keep the global layer small.
+- Keep project workflows project-specific.
+- Prefer routing over repetition.
+- Prefer reusable playbooks over long top-level prompts.
+- Prefer explicit delivery standards over vague quality language.
+- Prefer repair loops and benchmarks over endlessly adding more rules.
+
+## What Is Not Included
+
+This public package intentionally excludes private local state such as:
+
+- personal config files
+- auth files
+- plugin caches
+- session data
+- local databases
+- API keys
+- machine-specific automations
+
+## Suggested Next Steps
+
+If you want to publish this as your own repository, consider adding:
+
+- a `LICENSE` file such as `MIT`
+- a short `CHANGELOG.md`
+- example project descriptions
+- example generated project-level harness outputs
+
+## Short Repository Description
+
+If you need a GitHub repository description under 350 characters, you can use:
+
+> A layered Codex harness for long-term knowledge work, reusable workflows, project bootstrapping, and project-specific AGENTS generation. Includes a global AGENTS.md, a modular knowledge-workbench, and a skill that turns project descriptions into project-root harness files.
