@@ -1,0 +1,13 @@
+version = 1
+id = "weekly-harness-maintenance"
+kind = "cron"
+name = "Weekly Harness Maintenance"
+prompt = "对当前 workspace 的 harness 做一次每周自动维护。先运行 `python tools/auto_cold_layer_maintenance.py --mode weekly`，读取 `outputs/harness-maintenance/latest-weekly-cold-layer-report.md`，把它当作本轮冷层压缩入口。然后再读 `AGENTS.md`、`PROJECT-WORKFLOW.md`、`.project-memory/README.md`、`.project-memory/validation-harness-health.md`、`.project-memory/tool-delivery-routing.md`、`.project-memory/plugin-mcp-governance.md`、`.project-memory/capability-fallback-matrix.md`、`.project-memory/weekly-maintenance-report-template.md`。接着运行 `python tools/check_harness.py`。如果自动报告状态是“需要收缩”或“收缩优先级高”，优先只处理报告里前 1 个最高价值候选，动作顺序是：删重复 > 并近义 > 下沉 > 补空白，默认不要新增新文件。然后抽查 `harness-regression/cases/` 或 `harness-regression/drills/` 中最相关的 1 到 2 个样例，确认这次改动没有把高频入口、工具路由或回退路径做坏。只做低风险、可解释、可回退的小幅治理，不做大范围改写。若本轮没有适合直接改动的点，也必须输出明确判断，并保留自动报告结论。最后严格按 `.project-memory/weekly-maintenance-report-template.md` 输出每周报告，默认中文。"
+status = "ACTIVE"
+rrule = "FREQ=WEEKLY;BYDAY=MO;BYHOUR=10;BYMINUTE=0;BYSECOND=0"
+model = "gpt-5.5"
+reasoning_effort = "medium"
+execution_environment = "local"
+cwds = ["C:\\Users\\ROG\\Documents\\杂务"]
+created_at = 1782990390922
+updated_at = 1783045114807

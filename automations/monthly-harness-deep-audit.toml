@@ -1,0 +1,13 @@
+version = 1
+id = "monthly-harness-deep-audit"
+kind = "cron"
+name = "Monthly Harness Deep Audit"
+prompt = "对当前 workspace 的 harness 做一次月度深检。先运行 `python tools/auto_cold_layer_maintenance.py --mode monthly`，读取 `outputs/harness-maintenance/latest-monthly-cold-layer-report.md` 与对应 json，把它们当作本轮冷层压缩主入口。然后再读 `AGENTS.md`、`PROJECT-WORKFLOW.md`、`.project-memory/README.md`、`.project-memory/validation-harness-health.md`、`.project-memory/tool-delivery-routing.md`、`.project-memory/plugin-mcp-governance.md`、`.project-memory/capability-registry.md`、`.project-memory/capability-fallback-matrix.md`、`.project-memory/rule-deletion-guidelines.md`、`.project-memory/expansion-budget-policy.md`、`.project-memory/memory-write-thresholds.md`、`.project-memory/memory-retention-and-expiry.md`、`.project-memory/memory-audit-playbook.md`、`.project-memory/decision-log.md`、`.project-memory/project-state.md`。接着运行 `python tools/check_harness.py`。至少抽查 3 个样例，覆盖 cases 与 drills；如果最近 memory 有新增，再至少抽查 2 个 memory drills。若自动报告状态是“需要收缩”或“收缩优先级高”，本轮优先按报告候选顺序做中小规模治理，顺序固定为：删重复 > 并近义 > 下沉 > 补空白 > 新增文件；默认不要跳过前两步直接扩张。只做可解释、可回退的结构治理。若做了修改，可更新 `.project-memory/project-state.md`，并只在真正稳定成立时更新 `decision-log.md`。最后输出月度结论，必须包含总体判断、已处理问题、剩余风险、下月最该看的 1 到 2 个文件，默认中文。"
+status = "ACTIVE"
+rrule = "FREQ=MONTHLY;BYMONTHDAY=1;BYHOUR=10;BYMINUTE=0;BYSECOND=0"
+model = "gpt-5.5"
+reasoning_effort = "medium"
+execution_environment = "local"
+cwds = ["C:\\Users\\ROG\\Documents\\杂务"]
+created_at = 1783035887123
+updated_at = 1783045114878
