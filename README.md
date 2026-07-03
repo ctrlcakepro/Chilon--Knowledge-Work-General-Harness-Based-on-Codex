@@ -1,22 +1,23 @@
 # Knowledge Work Harness for Codex
 
-这是一套面向知识工作场景的 Codex harness 配置包，目标不是单纯增加提示词，而是把长期协作中真正稳定有效的部分整理成一套可复用、可维护、可扩展的工作结构。它适合阅读总结、课程学习、论文写作、资料整理、汇报准备、文档精炼，以及需要一定结构判断和交付意识的任务。和“只会回答问题”的项目配置不同，这套 harness 更强调任务分流、成品交付、规则治理、自动维护，以及在上下文预算内稳定运行。  
-This package is a Codex harness designed for knowledge work. Its goal is not to pile on more prompts, but to turn the stable, reusable parts of long-term collaboration into a maintainable and extensible working structure. It is suitable for reading summaries, course study, academic writing, research organization, presentation prep, document condensation, and other tasks that require structure, judgment, and deliverable awareness. Unlike project setups that only optimize for answering questions, this harness focuses on task routing, production-quality outputs, rule governance, automated maintenance, and stable operation within a controlled context budget.
+这是一套面向知识工作场景的 Codex harness 配置包。它的目标不是单纯增加提示词，而是把长期协作中真正稳定有效的部分整理成一套**可复用、可维护、可扩展**的工作结构。
 
-这套项目的核心架构分为几层。`AGENTS.md` 负责顶层协作规则，限定输出风格、任务分流方式和可靠性边界；`PROJECT-WORKFLOW.md` 负责项目级默认流程，说明常见任务如何进入对应工作流；`.project-memory/` 是显式 memory layer，用来保存长期有效的偏好、状态、决策和知识缓存；`tools/` 里放的是校验与自动维护脚本；`harness-regression/` 则用于回归样例和演练，帮助持续检查这套结构有没有跑偏。这个分层设计的重点是让顶层保持轻，细节尽量下沉，减少规则平铺带来的上下文污染。  
-The architecture is intentionally layered. `AGENTS.md` holds the top-level collaboration rules, including output style, task routing, and reliability boundaries. `PROJECT-WORKFLOW.md` defines the default project-level flows for common task types. `.project-memory/` acts as an explicit memory layer for durable preferences, project state, decisions, and knowledge cache. `tools/` contains validation and maintenance scripts. `harness-regression/` stores regression cases and drills so the system can be checked continuously over time. The main design goal of this layering is to keep the top level light, push detail downward, and reduce context pollution caused by flattening too many rules into one place.
+This package is a Codex harness designed for knowledge work. Its goal is not to pile on more prompts, but to turn the stable, reusable parts of long-term collaboration into a maintainable and extensible working structure.
 
-在功能上，这个包不仅包含基础规则，也包含一套治理能力。`tools/check_harness.py` 用来检查文件存在性、关键引用、文件体量、误广加载预算、全量平铺预算和旧命名残留；`tools/auto_cold_layer_maintenance.py` 会自动扫描冷层文件，生成每周和每月的冷层压缩报告，帮助识别哪些文件适合删重、并近义、下沉或延后处理。配套导出的 `automations/*.toml` 则对应 Codex 中的每周轻维护和每月深检任务，使这套 harness 不只是“配置”，而是一个可以持续自我校准的工作系统。  
-Functionally, this package includes more than baseline rules. `tools/check_harness.py` validates file presence, critical references, file size budgets, accidental broad-load budgets, full-flatten budgets, and legacy naming residue. `tools/auto_cold_layer_maintenance.py` scans the cold layer automatically and generates weekly and monthly compression reports, helping identify which files should be deduplicated, merged, pushed downward, or deferred. The exported `automations/*.toml` files correspond to the weekly maintenance and monthly deep-audit jobs in Codex, which means this harness is not just a static configuration bundle, but a working system that can keep recalibrating itself over time.
+---
 
-目录中包含当前可直接使用的核心文件：`AGENTS.md`、`PROJECT-WORKFLOW.md`、完整的 `.project-memory/`、校验和维护脚本、回归与演练样例，以及两个安装入口 `install.ps1` 和 `install.cmd`。这个导出包不包含临时输出、截图、生成成品、缓存目录或运行时中间文件，因此更适合直接同步到 GitHub，或者作为另一套工作区的初始化基底。  
-The package includes the core files needed for immediate reuse: `AGENTS.md`, `PROJECT-WORKFLOW.md`, the full `.project-memory/` directory, validation and maintenance scripts, regression and drill samples, and two installation entry points: `install.ps1` and `install.cmd`. It does not include temporary outputs, screenshots, final generated artifacts, cache folders, or runtime intermediates, which makes it more suitable for direct sync to GitHub or for bootstrapping another workspace from a clean base.
+## 🚀 适用场景 | Target Scenarios
 
-安装方式以 Windows 为主，最简单的方法是双击 `install.cmd`。如果你希望手动执行，可以在 PowerShell 中运行 `powershell -ExecutionPolicy Bypass -File .\install.ps1`。安装时脚本会要求输入目标项目目录，然后自动把这套 harness 安装到该目录，并在目标目录内创建 `.harness-install-backup/` 来备份原有同名文件。默认情况下，脚本还会把两个 Codex 自动化配置安装到 `~/.codex/automations/`，这样周维护和月深检可以直接接管后续治理流程。  
-Installation is designed primarily for Windows. The simplest path is to double-click `install.cmd`. If you prefer to run it manually, use `powershell -ExecutionPolicy Bypass -File .\install.ps1` in PowerShell. During installation, the script asks for the absolute path of the target project directory, installs the harness into that location, and creates `.harness-install-backup/` inside the target directory to preserve any existing files with the same names. By default, it also installs the two Codex automation configs into `~/.codex/automations/`, so weekly maintenance and monthly deep audits can take over ongoing governance immediately.
+本配置包非常适合以下需要一定**结构判断**与**交付意识**的任务：
+*   📚 **中文：** 阅读总结、课程学习、论文写作、资料整理、汇报准备、文档精炼。
+*   🌍 **English:** Reading summaries, course study, academic writing, research organization, presentation prep, document condensation.
 
-如果你只想安装项目配置，而不想覆盖或新增自动化任务，可以运行 `powershell -ExecutionPolicy Bypass -File .\install.ps1 -SkipAutomations`。安装完成后，建议先运行一次 `python tools/check_harness.py`，确认结构完整且预算正常；如果你想查看冷层压力，再运行一次 `python tools/auto_cold_layer_maintenance.py --mode weekly`。这样可以在第一次使用前就快速知道这套 harness 处于什么状态。  
-If you only want the project configuration and do not want to install or overwrite automation tasks, run `powershell -ExecutionPolicy Bypass -File .\install.ps1 -SkipAutomations` instead. After installation, it is a good idea to run `python tools/check_harness.py` once to confirm that the structure is intact and the budgets are healthy. If you also want a quick picture of cold-layer pressure, run `python tools/auto_cold_layer_maintenance.py --mode weekly`. This gives you an immediate health snapshot before you start using the harness in real work.
+和“只会回答问题”的项目配置不同，这套 harness 更强调**任务分流、成品交付、规则治理、自动维护**，以及在上下文预算内稳定运行。
+Unlike project setups that only optimize for answering questions, this harness focuses on task routing, production-quality outputs, rule governance, automated maintenance, and stable operation within a controlled context budget.
 
-这套 harness 的定位不是通用软件产品，而是一份经过治理和校准的工作配置。它最适合那些希望把“知识工作中的高频协作模式”稳定沉淀下来的人：你可以把它当作自己的长期学习与写作底座，也可以把它作为进一步公开化、模块化或插件化改造的起点。  
-This harness is not positioned as a generic software product. It is a governed and calibrated working configuration. It is best suited for people who want to stabilize the high-frequency collaboration patterns inside knowledge work. You can use it as a long-term foundation for study and writing, or as a starting point for further open-sourcing, modularization, or plugin-based extension.
+---
+
+## 🏗️ 核心架构 | Architecture
+
+项目的核心架构采用分层设计，重点在于**让顶层保持轻量，细节尽量下沉**，从而最大程度减少规则平铺带来的上下文污染（Context Pollution）。
+The architecture is intentionally layered to keep the top level light, push detail downward, and reduce context pollution caused by flattening too many rules into one place.
