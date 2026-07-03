@@ -1,4 +1,3 @@
-[Uploading README.md…]()
 # Knowledge Work Harness for Codex
 
 <p align="center">
