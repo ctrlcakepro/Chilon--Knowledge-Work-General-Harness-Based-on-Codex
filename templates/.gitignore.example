@@ -1,0 +1,26 @@
+# Chilon local/private memory
+.project-memory/private/
+.project-memory/local/
+.project-memory/secrets.md
+.project-memory/account-info.md
+.project-memory/client-notes.md
+.project-memory/private-notes.md
+.project-memory/local-project-state.md
+
+# Chilon install backups
+.harness-install-backup/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Local editor and OS files
+.DS_Store
+Thumbs.db
+.vscode/settings.json
+.idea/
+
+# Local scratch files
+*.local.md
+*.scratch.md
